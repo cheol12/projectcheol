@@ -33,4 +33,25 @@ public class HelloControllerTest {
         log.info("리턴");
     }
 
+    @Test
+    void helloDto가_리턴된다() throws Exception{
+        String name = "hello";
+        int amount = 1000;
+
+        mvc.perform(
+                get("/hello/dto")
+                        .param("name", name)
+                        .param("amount", String.valueOf(amount)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", is(name)))
+                .andExpect(jsonPath("$.amount", is(amount))
+        );
+    }
 }
+// .param 이란
+// : API 테스트시 사용될 요청 파라미터 설정(단, String만 허용)
+
+// jsonPath 란
+// : JSON 응답 값을 필드별로 검증하는 메소드
+// : $를 기준으로 필드명 명시
+// : 여기서는 name, amount 검증을 위해 -> $.name, $.amount로 검증
